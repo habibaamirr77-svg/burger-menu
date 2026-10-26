@@ -1,0 +1,410 @@
+/* style.css — Monte seu lanche (builder de lanche e batata) */
+
+:root {
+  --bg: #f3f3f1;
+  --fg: #1c1a18;
+  --mu: #8a8680;
+  --ac: #9b1c1c;
+  --card: #fff;
+  --ln: #e3e1dc;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171514;
+    --fg: #f1ede8;
+    --mu: #9a948c;
+    --card: #242120;
+    --ln: #38332f;
+  }
+
+}
+
+:root[data-theme="dark"] {
+  --bg: #171514;
+  --fg: #f1ede8;
+  --mu: #9a948c;
+  --card: #242120;
+  --ln: #38332f;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top,0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+}
+
+.app {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 16px 14px 96px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 22px;
+  margin: 4px 0 12px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.buns {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.bun {
+  flex: 1;
+  border: 1.5px solid transparent;
+  background: none;
+  color: var(--fg);
+  border-radius: 12px;
+  padding: 6px 2px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bun.on {
+  border-color: var(--ac);
+  background: color-mix(in srgb,var(--ac) 10%,transparent);
+}
+
+.stage {
+  height: 385px;
+  margin: 6px 0 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+  transition: transform .35s;
+}
+
+.l {
+  border-radius: 8px;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.18),inset 0 2px 0 rgba(255,255,255,.18);
+}
+
+.l.drop {
+  animation: drop .55s cubic-bezier(.3,1.4,.5,1);
+}
+
+@keyframes drop {
+  from {
+    transform: translateY(-260px);
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+}
+
+.hint {
+  text-align: center;
+  color: var(--mu);
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px 4px;
+}
+
+.ing {
+  background: none;
+  border: 0;
+  color: var(--fg);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+}
+
+.sw {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 4px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1.5px solid var(--ln);
+  display: grid;
+  place-items: center;
+  position: relative;
+  transition: border-color .2s,transform .15s;
+}
+
+.ing:active .sw {
+  transform: scale(.93);
+}
+
+.sw img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.l.p {
+  box-shadow: none;
+  border-radius: 0;
+  position: relative;
+}
+
+.l.p img {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.3));
+}
+
+.ing.on .sw {
+  border-color: var(--ac);
+}
+
+.cnt {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--ac);
+  color: #fff;
+  font-size: 11px;
+  line-height: 20px;
+  padding: 0 5px;
+  display: none;
+}
+
+.on .cnt {
+  display: block;
+}
+
+.min {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--ln);
+  background: var(--card);
+  color: var(--fg);
+  font-size: 14px;
+  line-height: 17px;
+  padding: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.on .min {
+  display: block;
+}
+
+.nm {
+  font-size: 11px;
+  line-height: 1.15;
+}
+
+.pr {
+  font-size: 10px;
+  color: var(--mu);
+}
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+  background: linear-gradient(transparent,var(--bg) 35%);
+}
+
+.cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 412px;
+  margin: 0 auto;
+  background: #17110f;
+  color: #fff;
+  border: 0;
+  border-radius: 16px;
+  padding: 16px 18px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cta:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.done {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: 24px;
+}
+
+.done.show {
+  display: flex;
+}
+
+.done .stack {
+  transform: scale(.8);
+}
+
+.done p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.done button {
+  background: none;
+  border: 0;
+  color: var(--ac);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.hd h1 {
+  margin: 4px 0;
+}
+
+.lang {
+  display: flex;
+  border: 1.5px solid var(--ln);
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lang button {
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.lang button.on {
+  background: var(--ac);
+  color: #fff;
+}
+
+.pr,#tot {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 9px;
+  border-radius: 12px;
+  border: 1.5px solid var(--ln);
+  background: var(--card);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabs button.on {
+  background: var(--ac);
+  color: #fff;
+  border-color: var(--ac);
+}
+
+.bun em {
+  height: 28px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.bun em img {
+  width: auto;
+}
+
+.tray {
+  height: 38px;
+  border-radius: 4px 4px 16px 16px;
+  background: repeating-linear-gradient(90deg,#c62828 0 14px,#fff 14px 28px);
+  position: relative;
+  z-index: 2;
+  margin-top: -4px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,.2);
+}
+
+.bi {
+  position: relative;
+  display: block;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.3));
+}
+
+.bi.drop {
+  animation: drop .55s cubic-bezier(.3,1.4,.5,1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .l.drop {
+    animation: none;
+  }
+
+}
